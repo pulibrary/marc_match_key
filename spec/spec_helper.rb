@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
-require 'marc_match_key'
-
+# This must be first!
 if ENV['CI'] || ENV['COVERAGE']
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start do
+    add_filter 'spec'
+  end
 end
+
+require 'marc_match_key'
+require 'byebug'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

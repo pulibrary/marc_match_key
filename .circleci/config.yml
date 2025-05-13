@@ -1,21 +1,39 @@
 version: 2.1
 jobs:
-  build:
+  test:
+    parameters:
+      ruby:
+        description: "Ruby version"
+        default: "3.3.6"
+        type: "string"
     docker:
-      - image: ruby:3.2.0
-    environment:
-      RB_SYS_FORCE_INSTALL_RUST_TOOLCHAIN: 'true'
+      - image: cimg/ruby:<< parameters.ruby >>
     steps:
       - checkout
       - run:
-          name: Install Rust/Cargo dependencies
-          command: apt-get update && apt-get install -y clang
-      - run:
-          name: Install a RubyGems version that can compile rust extensions
-          command: gem update --system '3.5.22'
-      - run:
           name: Run the default task
           command: |
-            gem install bundler -v 2.5.22
+            gem install bundler -v 2.6.3
             bundle install
-            bundle exec rake
+            bundle exec rspec
+  rubocop:
+    parameters:
+    docker:
+      - image: cimg/ruby:3.2.6
+    steps:
+      - checkout
+      - run:
+          name: Run rubocop
+          command: |
+            gem install bundler -v 2.6.3
+            bundle install
+            bundle exec rubocop
+
+workflows:
+  all-tests:
+    jobs:
+      - rubocop
+      - test:
+          matrix:
+            parameters:
+              ruby: ["3.2.6", "3.3.6", "3.4.1"]

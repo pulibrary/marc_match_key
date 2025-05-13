@@ -1,21 +1,39 @@
 version: 2.1
+orbs:
+  coveralls: coveralls/coveralls@2.2.5
+  ruby: circleci/ruby@2.1.0
+
 jobs:
-  build:
+  test:
+    parameters:
+      ruby:
+        description: "Ruby version"
+        default: "3.3.6"
+        type: "string"
     docker:
-      - image: ruby:3.2.0
-    environment:
-      RB_SYS_FORCE_INSTALL_RUST_TOOLCHAIN: 'true'
+      - image: cimg/ruby:<< parameters.ruby >>
     steps:
       - checkout
-      - run:
-          name: Install Rust/Cargo dependencies
-          command: apt-get update && apt-get install -y clang
-      - run:
-          name: Install a RubyGems version that can compile rust extensions
-          command: gem update --system '3.5.22'
-      - run:
-          name: Run the default task
-          command: |
-            gem install bundler -v 2.5.22
-            bundle install
-            bundle exec rake
+      - run: ruby --version
+      - ruby/install-deps
+      - ruby/rspec-test:
+          include: spec/**/*_spec.rb
+      - coveralls/upload
+  rubocop:
+    parameters:
+    docker:
+      - image: cimg/ruby:3.2.6
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
+workflows:
+  all-tests:
+    jobs:
+      - rubocop
+      - test:
+          matrix:
+            parameters:
+              ruby: ["3.2.6", "3.3.6", "3.4.1"]

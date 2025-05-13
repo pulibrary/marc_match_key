@@ -7,6 +7,12 @@ gemspec
 
 gem 'rake', '~> 13.0'
 
-gem 'rspec', '~> 3.0'
-
-gem 'rubocop', '~> 1.21'
+group :test do
+  gem 'byebug'
+  gem 'rspec', '~> 3.0'
+  gem 'rspec_junit_formatter', require: false
+  gem 'rubocop', '~> 1.21'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
+  gem 'simplecov', require: false
+end

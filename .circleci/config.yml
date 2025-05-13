@@ -1,4 +1,8 @@
 version: 2.1
+orbs:
+  coveralls: coveralls/coveralls@2.2.5
+  ruby: circleci/ruby@2.1.0
+
 jobs:
   test:
     parameters:
@@ -10,25 +14,21 @@ jobs:
       - image: cimg/ruby:<< parameters.ruby >>
     steps:
       - checkout
-      - run:
-          name: Run the default task
-          command: |
-            gem install bundler -v 2.6.3
-            bundle install
-            bundle exec rspec
+      - run: ruby --version
+      - ruby/install-deps
+      - ruby/rspec-test:
+          include: spec/**/*_spec.rb
+      - coveralls/upload
   rubocop:
     parameters:
     docker:
       - image: cimg/ruby:3.2.6
     steps:
       - checkout
-      - run:
-          name: Run rubocop
-          command: |
-            gem install bundler -v 2.6.3
-            bundle install
-            bundle exec rubocop
-
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
 workflows:
   all-tests:
     jobs:

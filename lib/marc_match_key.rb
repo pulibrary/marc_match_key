@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "marc_match_key/version"
-require_relative "marc_match_key/marc_match_key"
+require_relative 'marc_match_key/version'
 
 module MarcMatchKey
   class Error < StandardError; end

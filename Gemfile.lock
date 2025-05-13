@@ -43,6 +43,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.2)
+    rspec_junit_formatter (0.6.0)
+      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (1.71.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -68,6 +70,7 @@ DEPENDENCIES
   marc_match_key!
   rake (~> 13.0)
   rspec (~> 3.0)
+  rspec_junit_formatter
   rubocop (~> 1.21)
 
 BUNDLED WITH

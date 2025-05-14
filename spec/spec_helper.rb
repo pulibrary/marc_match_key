@@ -10,6 +10,13 @@ end
 
 require 'marc_match_key'
 require 'byebug'
+require 'coveralls'
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter 'spec'
+end
+Coveralls.wear!
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

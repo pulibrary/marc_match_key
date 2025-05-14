@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in marc_match_key.gemspec
 gemspec
 
+gem 'coveralls_reborn'
 gem 'rake', '~> 13.0'
 
 group :test do

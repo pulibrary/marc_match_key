@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe 'MarcMatchFunctions' do
+  include MarcMatchFunctions
   describe 'strip_punctuation' do
     let(:replace_char) { '' }
 

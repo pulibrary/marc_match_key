@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+### A collection of functions and classes to generate a match key based on the
+###   GoldRush algorithm
 module MarcMatchKey
   ### Generates the title portion of a GoldRush key
   class TitleKey
+    include MarcMatchFunctions
     attr_reader :record, :key
 
     def initialize(record)

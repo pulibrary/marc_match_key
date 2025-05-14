@@ -1,8 +1,17 @@
 # frozen_string_literal: true
 
+<<<<<<< HEAD
 module MarcMatchKey
   ### Generates the publication date portion of a GoldRush key
   class PubDateKey
+=======
+### A collection of functions and classes to generate a match key based on the
+###   GoldRush algorithm
+module MarcMatchKey
+  ### Generates the publication date portion of a GoldRush key
+  class PubDateKey
+    include MarcMatchFunctions
+>>>>>>> 2d07295 (title and pub date portions)
     attr_reader :record, :key
 
     def initialize(record)

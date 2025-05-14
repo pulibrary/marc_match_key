@@ -8,6 +8,8 @@ require_relative 'marc_match_key/pagination_key'
 require_relative 'marc_match_key/edition_key'
 require_relative 'marc_match_key/publisher_key'
 require_relative 'marc_match_key/type_key'
+require_relative 'marc_match_key/title_part_key'
+require_relative 'marc_match_key/title_number_key'
 
 require 'marc'
 require 'nokogiri'

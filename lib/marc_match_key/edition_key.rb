@@ -3,7 +3,7 @@
 ### A collection of functions and classes to generate a match key based on the
 ###   GoldRush algorithm
 module MarcMatchKey
-  ### Generates the publication date portion of a GoldRush key
+  ### Generates the edition portion of a GoldRush key
   class EditionKey
     include MarcMatchFunctions
     attr_reader :record, :key

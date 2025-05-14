@@ -6,6 +6,9 @@ require_relative 'marc_match_key/title_key'
 require_relative 'marc_match_key/pub_date_key'
 require_relative 'marc_match_key/pagination_key'
 require_relative 'marc_match_key/edition_key'
+require_relative 'marc_match_key/publisher_key'
+require_relative 'marc_match_key/type_key'
+
 require 'marc'
 require 'nokogiri'
 

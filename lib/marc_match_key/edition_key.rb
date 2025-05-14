@@ -15,8 +15,6 @@ module MarcMatchKey
 
     private
 
-    ### follows GoldRush documentation, but the logic is not clear why
-    ###   Date2 is preferred over Date1; monographs only have a date in Date1
     def generate_key
       f250 = record.fields('250').find { |f| f['a'] }
       return pad_with_underscores('1', 3) if f250.nil?

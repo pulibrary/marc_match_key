@@ -15,8 +15,6 @@ module MarcMatchKey
 
     private
 
-    ### follows GoldRush documentation, but the logic is not clear why
-    ###   Date2 is preferred over Date1; monographs only have a date in Date1
     def generate_key
       leader_val = record.leader.dup
       leader_val.force_encoding('utf-8')

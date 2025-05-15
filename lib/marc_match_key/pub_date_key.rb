@@ -53,8 +53,7 @@ module MarcMatchKey
     def pub_date_from_pub_field(pub_field)
       return '0000' if pub_field.nil?
 
-      subfc = pub_field['c'].dup
-      pub_date = subfc.gsub(/^.*([0-9]{4})[^0-9]*$/, '\1')
+      pub_date = pub_field['c'].gsub(/^.*([0-9]{4})[^0-9]*$/, '\1')
       pub_date = '0000' if pub_date !~ /^[0-9]{4}$/
       pub_date
     end

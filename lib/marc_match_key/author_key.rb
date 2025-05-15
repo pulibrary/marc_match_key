@@ -20,7 +20,8 @@ module MarcMatchKey
         %w[100 110 111 113 130].include?(field.tag) &&
           field['a']
       end
-      author_key = auth_fields.map { |field| clean_string(field['a']) }.join
+      author_key = auth_fields.map { |field| clean_string(field['a']) }
+                              .join
       pad_with_underscores(author_key, 20)
     end
 

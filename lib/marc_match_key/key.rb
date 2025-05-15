@@ -3,7 +3,7 @@
 ### A collection of functions and classes to generate a match key based on the
 ###   GoldRush algorithm
 module MarcMatchKey
-  ### Generates the Gov Doc portion of a GoldRush key
+  ### Generates GoldRush key
   class Key
     attr_reader :record
 
@@ -18,24 +18,21 @@ module MarcMatchKey
     private
 
     def key_part_one
-      part = TitleKey.new(record).key
-      part << PubDateKey.new(record).key
-      part << PaginationKey.new(record).key
-      part << EditionKey.new(record).key
+      [TitleKey, PubDateKey, PaginationKey, EditionKey]
+        .map { |key_type| key_type.new(record).key }
+        .join
     end
 
     def key_part_two
-      part = PublisherKey.new(record).key
-      part << TypeKey.new(record).key
-      part << TitlePartKey.new(record).key
-      part << TitleNumberKey.new(record).key
+      [PublisherKey, TypeKey, TitlePartKey, TitleNumberKey]
+        .map { |key_type| key_type.new(record).key }
+        .join
     end
 
     def key_part_three
-      part = AuthorKey.new(record).key
-      part << TitleDateKey.new(record).key
-      part << GovDocKey.new(record).key
-      part << FormatCharacterKey.new(record).key
+      [AuthorKey, TitleDateKey, GovDocKey, FormatCharacterKey]
+        .map { |key_type| key_type.new(record).key }
+        .join
     end
   end
 end

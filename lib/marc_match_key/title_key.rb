@@ -31,10 +31,10 @@ module MarcMatchKey
     def title_key_from880(record, field_num)
       return if field_num == ''
 
-      f880 = record.fields('880').select { |f| f['6'] =~ /^245-#{field_num}/ }
-      return if f880.empty?
+      f880 = record.fields('880').find { |f| f['6'] =~ /^245-#{field_num}/ }
+      return if f880.nil?
 
-      process_title_field(f880.first)
+      process_title_field(f880)
     end
 
     def process_title_field(field)

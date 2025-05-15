@@ -16,13 +16,9 @@ module MarcMatchKey
       f245 = record.fields('245').find { |f| f['p'] }
       return pad_with_underscores('', 30) if f245.nil?
 
-      title_part_key = ''.dup
-      f245.subfields.each do |subfield|
-        next unless subfield.code == 'p'
-
-        part = clean_string(subfield.value)
-        title_part_key << part[0..9]
-      end
+      title_part_key = f245.subfields.select { |subfield| subfield.code == 'p' }
+                           .map { |subfield| clean_string(subfield.value)[0..9] }
+                           .join
       pad_with_underscores(title_part_key, 30)
     end
 

@@ -13,7 +13,14 @@ module MarcMatchKey
     end
 
     def key
-      publisher_from_pub_field(publisher_26x_field)
+      if publisher_26x_field.nil?
+        pad_with_underscores('', 5)
+      else
+        subfb = publisher_26x_field['b'].to_s
+        subfb = normalize_string_and_remove_accents(subfb)
+        subfb = strip_punctuation(string: subfb)
+        pad_with_underscores(subfb.downcase, 5)
+      end
     end
 
     private
@@ -30,15 +37,6 @@ module MarcMatchKey
         return field if field
       end
       nil
-    end
-
-    def publisher_from_pub_field(pub_field)
-      return pad_with_underscores('', 5) if pub_field.nil?
-
-      subfb = pub_field['b'].dup.to_s
-      subfb = normalize_string_and_remove_accents(subfb)
-      subfb = strip_punctuation(string: subfb)
-      pad_with_underscores(subfb.downcase, 5)
     end
   end
 end

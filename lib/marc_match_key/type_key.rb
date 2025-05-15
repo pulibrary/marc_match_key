@@ -6,22 +6,18 @@ module MarcMatchKey
   ### Generates the type portion of a GoldRush key
   class TypeKey
     include MarcMatchFunctions
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
     end
 
-    private
-
-    def generate_key
+    def key
       leader_val = record.leader.dup
       leader_val.force_encoding('utf-8')
       return pad_with_underscores('', 1) unless leader_val&.size&.> 9
 
-      type_char = leader_val[6]
-      type_char = normalize_string_and_remove_accents(type_char)
+      type_char = normalize_string_and_remove_accents(leader_val[6])
       pad_with_underscores(type_char, 1)
     end
   end

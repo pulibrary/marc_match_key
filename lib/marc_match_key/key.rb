@@ -5,20 +5,17 @@
 module MarcMatchKey
   ### Generates the Gov Doc portion of a GoldRush key
   class Key
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
+    end
+
+    def key
+      [key_part_one, key_part_two, key_part_three].join
     end
 
     private
-
-    def generate_key
-      match_key = key_part_one
-      match_key << key_part_two
-      match_key << key_part_three
-    end
 
     def key_part_one
       part = TitleKey.new(record).key

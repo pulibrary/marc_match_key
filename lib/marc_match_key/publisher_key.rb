@@ -6,19 +6,17 @@ module MarcMatchKey
   ### Generates the publisher portion of a GoldRush key
   class PublisherKey
     include MarcMatchFunctions
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
+    end
+
+    def key
+      publisher_from_pub_field(publisher_26x_field)
     end
 
     private
-
-    def generate_key
-      pub_field = publisher_26x_field
-      publisher_from_pub_field(pub_field)
-    end
 
     def publisher_26x_field
       publisher_from_f264 || record.fields('260').find { |f| f['b'] }
@@ -40,8 +38,7 @@ module MarcMatchKey
       subfb = pub_field['b'].dup.to_s
       subfb = normalize_string_and_remove_accents(subfb)
       subfb = strip_punctuation(string: subfb)
-      subfb.downcase!
-      pad_with_underscores(subfb, 5)
+      pad_with_underscores(subfb.downcase, 5)
     end
   end
 end

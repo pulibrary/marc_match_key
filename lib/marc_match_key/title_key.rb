@@ -6,16 +6,13 @@ module MarcMatchKey
   ### Generates the title portion of a GoldRush key
   class TitleKey
     include MarcMatchFunctions
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
     end
 
-    private
-
-    def generate_key
+    def key
       field = record['245']
       return pad_with_underscores('', 70) if field.nil?
 
@@ -28,6 +25,8 @@ module MarcMatchKey
       end
       title_key || process_title_field(field)
     end
+
+    private
 
     def title_key_from880(record, field_num)
       return if field_num == ''
@@ -43,13 +42,11 @@ module MarcMatchKey
       field.subfields.each do |subfield|
         next unless %w[a b p].include?(subfield.code)
 
-        substring = strip_punctuation(string: subfield.value.dup)
+        substring = strip_punctuation(string: subfield.value)
         substring = normalize_string_and_remove_accents(substring)
-        substring.downcase!
-        key << substring
+        key << substring.downcase
       end
-      key.strip!
-      pad_with_underscores(key, 70)
+      pad_with_underscores(key.strip, 70)
     end
   end
 end

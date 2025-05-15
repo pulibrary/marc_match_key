@@ -5,16 +5,13 @@
 module MarcMatchKey
   ### Generates the format character portion of a GoldRush key
   class FormatCharacterKey
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
     end
 
-    private
-
-    def generate_key
+    def key
       if (record['245'] && record['245']['h'] =~ /electronic resource/) ||
          electronic_resource_3xx? ||
          electronic_resource_5xx_f007? ||
@@ -24,6 +21,8 @@ module MarcMatchKey
         'p'
       end
     end
+
+    private
 
     def electronic_resource_5xx_f007?
       record.fields(%w[533 590]).any? { |f| f['a'] =~ /[Ee]lectronic reproduction/ } ||

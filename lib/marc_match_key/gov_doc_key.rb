@@ -6,16 +6,13 @@ module MarcMatchKey
   ### Generates the Gov Doc portion of a GoldRush key
   class GovDocKey
     include MarcMatchFunctions
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
     end
 
-    private
-
-    def generate_key
+    def key
       f086 = record.fields('086').find { |f| f['a'] }
       return '' if f086.nil?
 
@@ -23,8 +20,10 @@ module MarcMatchKey
       trim_max_field_length(subfa)
     end
 
+    private
+
     def clean_string(string)
-      string = normalize_string_and_remove_accents(string.dup)
+      string = normalize_string_and_remove_accents(string)
       string = strip_punctuation(string: string)
       string.downcase
     end

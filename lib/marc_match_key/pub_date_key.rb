@@ -6,22 +6,21 @@ module MarcMatchKey
   ### Generates the publication date portion of a GoldRush key
   class PubDateKey
     include MarcMatchFunctions
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
     end
-
-    private
 
     ### follows GoldRush documentation, but the logic is not clear why
     ###   Date2 is preferred over Date1; monographs only have a date in Date1
-    def generate_key
+    def key
       pub_date = pub_date_from_f008
       pub_date ||= pub_date_from_pub_field(pub_date_26x_field)
       pad_with_underscores(pub_date, 4)
     end
+
+    private
 
     def pub_date_from_f008
       f008 = record['008']&.value
@@ -44,7 +43,6 @@ module MarcMatchKey
     def pub_date_from_f264
       preferred_order = %w[1 4 2 3 0]
       f264 = record.fields('264').select { |f| f['c'] }
-
       preferred_order.each do |indicator|
         field = f264.find { |f| f.indicator2 == indicator }
         return field if field

@@ -9,30 +9,25 @@ module MarcMatchKey
   ###   also says that it's padded to 20 characters
   class AuthorKey
     include MarcMatchFunctions
-    attr_reader :record, :key
+    attr_reader :record
 
     def initialize(record)
       @record = record
-      @key ||= generate_key
     end
 
-    private
-
-    def generate_key
+    def key
       auth_fields = record.fields.select do |field|
         %w[100 110 111 113 130].include?(field.tag) &&
           field['a']
       end
-      author_key = ''.dup
-      auth_fields.each do |field|
-        part = clean_string(field['a'])
-        author_key << part
-      end
+      author_key = auth_fields.map { |field| clean_string(field['a']) }.join
       pad_with_underscores(author_key, 20)
     end
 
+    private
+
     def clean_string(string)
-      string = normalize_string_and_remove_accents(string.dup)
+      string = normalize_string_and_remove_accents(string)
       string = strip_punctuation(string: string)
       string.downcase
     end

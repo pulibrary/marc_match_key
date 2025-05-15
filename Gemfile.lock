@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    marc_match_key (0.1.0)
+    marc_match_key (1.0.0)
       marc (~> 1.0)
       nokogiri
 
